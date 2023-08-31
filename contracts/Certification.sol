@@ -1,5 +1,7 @@
-pragma solidity ^0.5.0;
-pragma experimental ABIEncoderV2;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.9;
+// pragma experimental ABIEncoderV2;
+
 
 import "./Institution.sol";
 
@@ -13,9 +15,9 @@ contract Certification {
 
     // Events
     event certificateGenerated(bytes32 _certificateId);
-    event certificateRevoked(bytes32 _certificateId);
+    event certificateRevoked(bytes32 _certificateId);   
 
-    constructor(Institution _institution) public {
+    constructor(Institution _institution)  {
         owner = msg.sender;
         institution = _institution;
     }
@@ -24,7 +26,9 @@ contract Certification {
         // Individual Info
         string candidate_name;
         string course_name;
-        string creation_date;
+        string creation_date;               
+        string grades;
+        string typeOfCertificat;
 
         // Institute Info
         string institute_name;
@@ -49,7 +53,10 @@ contract Certification {
         string memory _id,
         string memory _candidate_name,
         uint256 _course_index, 
-        string memory _creation_date) public {
+        string memory _creation_date,
+        string memory grades,
+        string memory typeOfCertificat
+        ) public {
         require(institution.checkInstitutePermission(msg.sender) == true, "Institute account does not exist");
         bytes32 byte_id = stringToBytes32(_id);
         // require(certificates[byte_id].creation_date == 0, "Certificate with given id already exists");
@@ -64,11 +71,11 @@ contract Certification {
         require(_course_index >= 0 && _course_index < _institute_courses.length, "Invalid Course index");
         string memory _course_name = _institute_courses[_course_index].course_name;
         bool revocation_status = false;
-        certificates[byte_id] = Certificate(_candidate_name, _course_name, _creation_date, _institute_name, _institute_acronym, _institute_link, revocation_status);
+        certificates[byte_id] = Certificate(_candidate_name, _course_name, _creation_date, grades, typeOfCertificat, _institute_name, _institute_acronym, _institute_link, revocation_status);
         emit certificateGenerated(byte_id);
     }
 
-    function getData(string memory _id) public view returns(string memory, string memory, string memory, string memory, string memory, string memory, bool) {
+    function getData(string memory _id) public view returns(string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, bool) {
         bytes32 byte_id = stringToBytes32(_id);
         Certificate memory temp = certificates[byte_id];
         // require(certificates[byte_id].creation_date != 0, "Certificate id does not exist!");
@@ -79,7 +86,7 @@ contract Certification {
             tempEmptyStringNameTest.length != 0,
             "Certificate id does not exist"
         );
-        return (temp.candidate_name, temp.course_name, temp.creation_date, temp.institute_name, temp.institute_acronym, temp.institute_link, temp.revoked);
+        return (temp.candidate_name, temp.course_name, temp.creation_date, temp.grades, temp.typeOfCertificat, temp.institute_name, temp.institute_acronym, temp.institute_link, temp.revoked);
     }
 
     function revokeCertificate(string memory _id) public {

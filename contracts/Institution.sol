@@ -1,5 +1,6 @@
-pragma solidity ^0.5.0;
-pragma experimental ABIEncoderV2;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.9;
+// pragma experimental ABIEncoderV2;
 
 import "./Certification.sol";
 
@@ -14,7 +15,7 @@ contract Institution {
     // Events
     event instituteAdded(string _instituteName);
 
-    constructor() public {
+    constructor() {
         owner = msg.sender;
     }
 
@@ -49,12 +50,7 @@ contract Institution {
         string memory _institute_acronym,
         string memory _institute_link,
         Course[] memory _institute_courses
-    ) public returns (bool) {
-        // Only owner can add institute
-        require(
-            msg.sender == owner,
-            "Caller must be the owner - only owner can add an institute"
-        );
+    ) public {
         bytes memory tempEmptyStringNameTest = bytes(
             institutes[_address].institute_name
         );

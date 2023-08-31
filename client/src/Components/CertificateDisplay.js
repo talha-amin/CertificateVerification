@@ -98,6 +98,8 @@ function CertificateDisplay() {
     candidateName: "",
     courseName: "",
     creationDate: null,
+    grade: "",
+    typeOfCert: "",
     instituteName: "",
     instituteAcronym: "",
     instituteLink: "",
@@ -161,7 +163,6 @@ function CertificateDisplay() {
         return Promise.reject("No certificate found with the input id");
       });
   };
-
   useEffect(async () => {
     console.log("REACT_APP_STAGE", process.env.REACT_APP_STAGE);
     console.log("NODE_ENV", process.env.NODE_ENV);
@@ -175,40 +176,44 @@ function CertificateDisplay() {
         console.log("Here's the retrieved certificate data of id", id);
         console.log(data);
         try {
-          console.log("candidateName", data[0], decrypt(data[0], id));
-          console.log("courseName", data[1]);
-          console.log("creationDate", data[2], decrypt(data[2], id));
-          console.log("instituteName", data[3]);
-          console.log("instituteAcronym", data[4]);
-          console.log("instituteLink", data[5]);
-          console.log("revoked", data[6]);
-
-          setCertData((prev) => ({
-            ...prev,
-            candidateName: decrypt(data[0], id),
-            courseName: data[1],
-            creationDate: decrypt(data[2], id),
-            instituteName: data[3],
-            instituteAcronym: data[4],
-            instituteLink: data[5],
-            revoked: data[6],
-          }));
-
-          setCertExists(true);
-          setLoading(false);
-        } catch (err) {
-          // TODO: Remove this try catch block.
-          // Should not enter here at all. Catching just in case
-          setCertExists(false); //remove
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.log("Certificate of id", id, "does not exist");
-        setCertExists(false);
+        console.log("candidateName", data[0], decrypt(data[0], id));
+        console.log("courseName", data[1]);
+        console.log("creationDate", data[2], decrypt(data[2], id));
+        console.log("grade", decrypt(data[3], id));
+        console.log("typeOfCert", decrypt(data[4], id));
+        console.log("instituteName", data[5]);
+        console.log("instituteAcronym", data[6]);
+        console.log("instituteLink", data[7]);
+        console.log("revoked", data[8]);
+  
+        setCertData((prev) => ({
+          ...prev,
+          candidateName: decrypt(data[0], id),
+          courseName: data[1],
+          creationDate: decrypt(data[2], id),
+          grade: decrypt(data[3], id),
+          typeOfCert: decrypt(data[4], id),
+          instituteName: data[5],
+          instituteAcronym: data[6],
+          instituteLink: data[7],
+          revoked: data[8],
+        }));
+        setCertExists(true);
         setLoading(false);
-      });
-  }, []);
+      } 
+      catch (err) {
+        // TODO: Remove this try catch block.
+        // Should not enter here at all. Catching just in case
+        setCertExists(false); //remove
+        setLoading(false);
+      } 
+    })
+    .catch((err) => {
+      console.log("Certificate of id", id, "does not exist");
+      setCertExists(false);
+      setLoading(false);
+    });
+}, []);
   return (
     <>
       <Grid container className={classes.root} justifyContent="center">
@@ -229,6 +234,8 @@ function CertificateDisplay() {
                 candidateName={certData.candidateName}
                 courseName={certData.courseName}
                 creationDate={certData.creationDate}
+                grade={certData.grade}
+                typeOfCert={certData.typeOfCert}
                 instituteName={certData.instituteName}
                 instituteAcronym={certData.instituteAcronym}
                 instituteLink={certData.instituteLink}
@@ -396,11 +403,13 @@ function Certificate({
   candidateName,
   courseName,
   creationDate,
+  grade,
+  typeOfCert,
   instituteName,
   instituteAcronym,
   instituteLink,
   revoked,
-}) {
+},props) {
   const classes = useStyles();
   const dateObject = new Date(creationDate);
   const day = dateObject.toLocaleString("en-US", { day: "numeric" });
@@ -412,7 +421,7 @@ function Certificate({
       <Paper className={classes.paper}>
         <Grid container>
           <Grid item xs={12} className={classes.certHeader}>
-            University Credential
+            Institute Credential
           </Grid>
 
           <Grid item xs={12} className={classes.certTopSection}>
@@ -424,6 +433,12 @@ function Certificate({
             >
               <Grid item>
                 <DetailGroup label="Student Name" content={candidateName} />
+              </Grid>
+              <Grid item>
+  {grade && grade !== "DEFAULT" && <DetailGroup label="Grade" content={grade} />}
+</Grid>
+              <Grid item>
+                <DetailGroup label="Type Of Certifiacte" content={typeOfCert} />
               </Grid>
               <Grid item>
                 <VerificationStatus revoked={revoked} />

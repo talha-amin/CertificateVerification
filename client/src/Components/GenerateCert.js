@@ -170,6 +170,8 @@ class GenerateCert extends React.Component {
     instituteWebsite: "",
     instituteCourses: [],
     candidateName: "",
+    grade:"",
+    typeOfCert:"",
     selectedCourse: null,
     isLegitInstitute: null,
     currentState: "normal", // normal/load/validate
@@ -259,6 +261,7 @@ class GenerateCert extends React.Component {
     let networkId;
     try {
       networkId = await web3.eth.net.getId();
+      console.log(networkId);
     } catch (err) {
       console.log("You are currently on this network:", networkId);
       this.setState({
@@ -323,12 +326,17 @@ class GenerateCert extends React.Component {
   }
 
   handleChange = (name) => (event) => {
+    let value = event.target.value;
+    if (name === "grade" && value === "") {
+      value = "DEFAULT"; // Set your default value here
+    }
     this.setState({
-      [name]: event.target.value,
+      [name]: value,
       currentState: "normal",
       revokeCurrentState: "normal",
     });
   };
+
 
   revokeCertificateFunction = async (event) => {
     event.preventDefault();
@@ -407,9 +415,9 @@ class GenerateCert extends React.Component {
       currentState: "load",
     });
     // this.setState({ currentState: "load" });
-    const { firstname, lastname, courseIndex } = this.state;
+    const { firstname, lastname, grade, typeOfCert, courseIndex } = this.state;
     let candidateName = `${firstname} ${lastname}`;
-    // let assignDate = new Date(assignedOn).getTime();
+   //let assignDate = new Date(assignedOn).getTime();
     console.log("Submit button clicked, below are current details:");
     const certId = uuidv4();
     const creationDate = new Date().getTime();
@@ -417,6 +425,8 @@ class GenerateCert extends React.Component {
     console.log("[1] candidateName:", candidateName);
     console.log("[2] courseIndex:", courseIndex);
     console.log("[3] creationDate:", creationDate);
+    console.log("[4] Grade",grade);
+    console.log("[5] TypeofCert",typeOfCert);
     // instantiate the contract (---can't maintain it in a state for some reason, need to check again later----)
     const web3 = window.web3;
     const accounts = await web3.eth.getAccounts();
@@ -433,15 +443,17 @@ class GenerateCert extends React.Component {
           certId,
           encrypt(candidateName, certId),
           courseIndex,
-          encrypt(creationDate, certId)
+          encrypt(creationDate, certId),
+          encrypt(grade,certId),
+          encrypt(typeOfCert,certId),
         )
         .send({ from: caller, gas: 2100000 })
         .on("receipt", function(receipt) {
           console.log(receipt);
         })
         .then((res) => {
-          // console.log("Success in generating certificate:", certId);
-          // alert(`Successfully generated a certificate (${certId})!`);
+          console.log("Success in generating certificate:", certId);
+          alert(`Successfully generated a certificate (${certId})!`);
           this.setState({
             currentState: "validate",
             certificateId: certId,
@@ -509,6 +521,8 @@ class GenerateCert extends React.Component {
       isLegitInstitute,
       firstname,
       lastname,
+      grade,
+      typeOfCert,
       certificateId,
       currentState,
       txnFailed,
@@ -540,7 +554,7 @@ class GenerateCert extends React.Component {
 
         {isLegitInstitute && (
           <>
-            <Grid container align="center" justify="center" alignItems="center">
+            <Grid container align="center" justifyContent="center" alignItems="center">
               <Grid item xs={8} sm={8}>
                 <Typography
                   variant="h4"
@@ -557,7 +571,7 @@ class GenerateCert extends React.Component {
                   style={{ marginTop: "30px" }}
                 >
                   You may create or revoke a certificate on the Credentials
-                  Ethereum Blockchain below
+                  Polygon Blockchain below
                 </Typography>
                 <Paper className={classes.paper}>
                   <AppBar position="static" className={classes.appbar}>
@@ -653,6 +667,25 @@ class GenerateCert extends React.Component {
                             margin="normal"
                             variant="outlined"
                           />
+                              <TextField
+                            id="grade"
+                            label="Grade"
+                            className={classes.textField}
+                            value={grade}
+                            onChange={this.handleChange("grade")}
+                            margin="normal"
+                            variant="outlined"
+                          />
+                              <TextField
+                            required
+                            id="typeOfCert"
+                            label="Type of Certificate"
+                            className={classes.textField}
+                            value={typeOfCert}
+                            onChange={this.handleChange("typeOfCert")}
+                            margin="normal"
+                            variant="outlined"
+                          />
                         </Grid>
                         <Grid item xs={12} sm={12}>
                           <FormControl
@@ -683,7 +716,7 @@ class GenerateCert extends React.Component {
                         <Grid item xs={12} sm={12} justifyContent>
                           <Box
                             display="flex"
-                            justifyContent="center"
+                            justifyContent="space-evenly"
                             alignItems="center"
                           >
                             <SubmitAnimation
@@ -700,6 +733,8 @@ class GenerateCert extends React.Component {
                                     currentState: "normal",
                                     firstname: "",
                                     lastname: "",
+                                    grade: "",
+                                    typeOfCert: "",
                                     courseIndex: 0,
                                   });
                                 }}
@@ -713,7 +748,7 @@ class GenerateCert extends React.Component {
                             <>
                               <Box
                                 display="flex"
-                                justifyContent="center"
+                                justifyContent="space-evenly"
                                 alignItems="center"
                               >
                                 <Typography
@@ -793,7 +828,7 @@ class GenerateCert extends React.Component {
                         <Grid item xs={12} sm={12}>
                           <Box
                             display="flex"
-                            justifyContent="center"
+                            justifyContent="space-evenly"
                             alignItems="center"
                           >
                             <SubmitAnimation
@@ -821,7 +856,7 @@ class GenerateCert extends React.Component {
                             <>
                               <Box
                                 display="flex"
-                                justifyContent="center"
+                                justifyContent="space-evenly"
                                 alignItems="center"
                               >
                                 <Typography

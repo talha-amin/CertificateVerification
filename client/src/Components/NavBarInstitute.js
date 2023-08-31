@@ -106,7 +106,7 @@ class NavBarInstitute extends React.Component {
           component={Link}
           to="/admin"
         >
-          Central Authority Portal
+          Register Institute
         </MenuItem>
         <MenuItem
           style={{ justifyContent: "flex-end" }}
@@ -161,7 +161,7 @@ class NavBarInstitute extends React.Component {
               color="primary"
               noWrap
             >
-              Certoshi
+              Certificate Management System
             </Typography>
             <div className={classes.generateCertificate}>
               <Typography

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 function Certificate(props) {
-  const { id, candidateName, courseName, creationDate, instituteName, instituteAcronym, instituteLink, revoked, logo } = props;
+  const { id, candidateName, courseName,creationDate, instituteName, instituteAcronym, instituteLink, revoked, logo,  grade, typeOfCert,  } = props;
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -52,6 +52,12 @@ function Certificate(props) {
       <text x="100" y="575" text-anchor="start" fill="black" id="hash">
         ID: {id}
       </text>
+      <text x="100" y="575" text-anchor="start" fill="black" id="hash">
+        with grade {grade}
+      </text>
+      <text x="100" y="575" text-anchor="start" fill="black" id="hash">
+        for {typeOfCert}
+      </text>
       <image
         x="725"
         y="500"
@@ -75,6 +81,8 @@ Certificate.propTypes = {
     instituteLink: PropTypes.string.isRequired,
     revoked: PropTypes.bool.isRequired,
     logo: PropTypes.string.isRequired,
+    grade: PropTypes.string.isRequired,
+    typeOfCert: PropTypes.string.isRequired,
     
 }
 

@@ -1,31 +1,34 @@
-// Allows us to use ES6 in our migrations and tests.
-require("babel-register");
-const HDWalletProvider = require("truffle-hdwallet-provider");
-require("dotenv").config();
+require('dotenv').config();
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+
+
+
 module.exports = {
-    networks: {
-        rinkeby: {
-            provider: function() {
-                return new HDWalletProvider(
-                    process.env.MNEMONIC,
-                    process.env.PROJECT_ENDPOINT,
-                    address_index=0,
-                    num_addresses=2
-                );
-            },
-            network_id: 4,
-            // gas: 4500000,
-            // gasPrice: 10000000000,
-        },
-        development: {
-            host: process.env.LOCAL_ENDPOINT.split(":")[1].slice(2),
-            port: process.env.LOCAL_ENDPOINT.split(":")[2],
-            network_id: "*",
-        },
-        compilers: {
-            solc: {
-                version: "^0.4.24",
-            },
-        },
+  networks: {
+    development: {
+      host: "127.0.0.1",
+      port: 8545,
+      network_id: "*",
     },
+    mumbai: {
+      provider: () => new HDWalletProvider({
+        privateKeys: [process.env.privateKeys],
+        providerOrUrl: process.env.PROJECT_ENDPOINT,
+      }),
+      network_id: 80001,
+      networkCheckTimeout: 10000,
+      timeoutBlocks: 200
+      // gas: 4500000,
+      // gasPrice: 10000000000,
+    },
+  },
+  plugins: ['truffle-plugin-verify'],
+  api_keys:{
+    polygonscan:"8CF62HG6EYZD1UAQ5N3HPV7DF1F9S32R2G"
+  },
+  compilers: {
+    solc: {
+      version: "0.8.13"
+    },
+  },
 };

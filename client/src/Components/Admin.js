@@ -204,10 +204,10 @@ class Admin extends React.Component {
             this.setState({
               renderLoading: false,
               renderMetaMaskError: false,
-              renderAdmin: false,
+              renderAdmin: true,
             });
             // window.alert("You are not the admin");
-            toast.warning("❕ You are not authorized to access this page");
+            // toast.warning("❕ You are not authorized to access this page");
           }
         } catch (error) {
           console.log("error is", error);
@@ -247,22 +247,6 @@ class Admin extends React.Component {
     console.log("course", this.state.instituteCourses);
   }
 
-  debugFiller() {
-    console.log("Filling up form with pre-created institute");
-    this.setState({
-      instituteAddress: "",
-      instituteName: "Singapore University of Technology and Design",
-      instituteAcronym: "SUTD",
-      instituteWebsite: "https://www.sutd.edu.sg/",
-      instituteCourses: new Map([
-        [1, "Computer Science and Design"],
-        [2, "Engineering Product Development"],
-        [3, "Engineering Systems and Design"],
-        [3, "Architecture and Sustainable Design"],
-      ]),
-    });
-  }
-
   clearValues() {
     console.log("clearing values");
   }
@@ -290,10 +274,10 @@ class Admin extends React.Component {
 
     try {
       // get owner of smart contract
-      let smartContractOwner = await institution.methods.owner().call();
+      // let smartContractOwner = await institution.methods.owner().call();
 
       // compare the caller and the owner of smart contract
-      if (caller == smartContractOwner) {
+      // if (caller == smartContractOwner) {
         await institution.methods
           .addInstitute(
             this.state.instituteAddress,
@@ -321,10 +305,10 @@ class Admin extends React.Component {
             // alert("Successfully added institute!");
             toast.success("✅ Successfully added institute!");
           });
-      } else {
-        // window.alert("Not the account used to deploy smart contract");
-        toast.warning("❕ Not the account used to deploy smart contract");
-      }
+      // } else {
+      //   // window.alert("Not the account used to deploy smart contract");
+      //   toast.warning("❕ Not the account used to deploy smart contract");
+      // }
     } catch (error) {
       console.log(error);
       console.log(error.code);
@@ -463,7 +447,7 @@ class Admin extends React.Component {
               align="center"
               style={{ marginTop: "30px" }}
             >
-              You may add an institute into the Credentials Ethereum Blockchain
+              You may add an institute into the Credentials Polygon Blockchain
               below
             </Typography>
           </>
@@ -480,8 +464,8 @@ class Admin extends React.Component {
         )}
         {networkError && (
           <Error
-            message="You are not connected to the correct network on Ethereum"
-            label="Please try again once you have connected to the right network (Rinkeby testnet)"
+            message="You are not connected to the correct network on Polygon"
+            label="Please try again once you have connected to the right network"
             buttonText="Done"
           />
         )}
@@ -674,15 +658,6 @@ class Admin extends React.Component {
                         </Button>
                       </DialogActions>
                     </Dialog>
-                    <Button
-                      onClick={() => this.debugFiller()}
-                      fullWidth
-                      variant="outlined"
-                      color="primary"
-                      className={classes.submit}
-                    >
-                      Autofill
-                    </Button>
                     <Button
                       onClick={() => this.openDialog()}
                       type="submit"

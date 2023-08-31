@@ -104,7 +104,7 @@ class NavBarSysAdmin extends React.Component {
           component={Link}
           to="/admin"
         >
-          Central Authority Portal
+          Register Institute
         </MenuItem>
         <MenuItem
           style={{ justifyContent: "flex-end" }}
@@ -159,14 +159,14 @@ class NavBarSysAdmin extends React.Component {
               color="primary"
               noWrap
             >
-              Certoshi
+              Certificate Management System
             </Typography>
             <div className={classes.generateCertificate}>
               <Typography
                 // variant="h6"
                 noWrap
               >
-                Central Authority Credential Management Portal
+                Institute Registration
               </Typography>
             </div>
             <div className={classes.grow} />

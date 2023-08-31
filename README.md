@@ -1,30 +1,3 @@
-# Certoshi - A Decentralized Certificate Issuance and Verification System powered by Ethereum Smart Contracts
-
-![](https://i.imgur.com/fPlaUCp.jpg)
-
-You can view the DEMO of the application [here](https://youtu.be/ZZOoJguZkeY)!! 🚀
-
-You are welcome to visit the live website connected to the Ethereum Rinkeby network at https://certoshi.vercel.app/ 😁
-
-[Click here to view other screenshots of our application!](#Use-Cases)
-
-## Documentation Contents
-
-- [Installation & Set Up](#Installation-&-Set-Up)
-  - [Downloading repository](#Downloading-repository)
-  - [Setting up Blockchain on Local Network](#Setting-up-Blockchain-on-Local-Network)
-  - [Setting up Blockchain on Ethereum Rinkeby Test Network](#Setting-up-Blockchain-on-Ethereum-Rinkeby-Test-Network)
-  - [Setting up Client Application](#Setting-up-Client-Application)
-- [Security & Testing](#Security--Testing)
-  - [Smart Contracts Funtionality Testing](#Smart-Contracts-Funtionality-Testing)
-  - [Smart Contracts Security Testing & Analysis](#Smart-Contracts-Security-Testing-Analysis)
-- [Use-Cases](#Use-Cases)
-  - [Registering Institutes by Central Authority](#Use-Case-1-Registering-Institutes)
-  - [Issuing Certificates by Institutes](#Use-Case-2-Issuing-Certificates)
-  - [Issuing Certificates by Institutes](#Use-Case-2-Issuing-Certificates)
-  - [Viewing Certificates by Employers/Public](#Use-Case-4-Viewing-Certificates)
-
----
 
 ## Installation & Set Up
 
@@ -335,9 +308,3 @@ Accessing Use Cases 1 to 3 on a normal browser without Metamask
 ![](https://i.imgur.com/imSzQpj.jpg)
 
 ---
-
-## Team Members
-
-- [Tharun Adhi Narayan](https://github.com/thawalk)
-- [Wong Ye Qi Daryll](https://github.com/daryllman)
-- [Akmal Hakim Teo](https://github.com/Akmalhakimteo)
